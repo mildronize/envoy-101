@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # envoy:
+  #   image: envoyproxy/envoy:v1.29-latest
+  #   volumes:
+  #     - ./envoy.yaml:/etc/envoy/envoy.yaml
+  #   ports:
+  #     - "80:10000"
+  #     - "443:10001"
+  #   networks:
+  #     - envoymesh
+
+  node-1111:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    networks:
+      - envoymesh
+    ports:
+      - "1111:1111"
+    # volumes:
+    #   - ./node_modules:/app/node_modules
+    environment:
+      - PORT=1111
+
+  node-2222:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    networks:
+      - envoymesh
+    ports:
+      - "2222:2222"
+    # volumes:
+    #   - ./node_modules:/app/node_modules
+    environment:
+      - PORT=2222
+
+networks:
+  envoymesh:
+    driver: bridge

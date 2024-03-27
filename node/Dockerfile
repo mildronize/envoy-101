@@ -1,0 +1,22 @@
+# Use official Node.js image as base
+FROM node:20-alpine
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy rest of the application
+COPY . .
+
+# Expose port (default to 3000)
+ARG PORT=3000
+ENV PORT=${PORT}
+EXPOSE ${PORT}
+
+# Command to run the application
+CMD ["node", "index.js"]
