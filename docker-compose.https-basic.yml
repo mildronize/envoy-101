@@ -4,9 +4,10 @@ services:
   envoy:
     image: envoyproxy/envoy:v1.29-latest
     volumes:
-      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./envoy/https-basic.yaml:/etc/envoy/envoy.yaml
+      - ./certs:/certs
     ports:
-      - "8080:10000"
+      - "80:10000"
       - "443:10001"
     networks:
       - envoymesh
