@@ -7,8 +7,8 @@ services:
       - ./envoy/https.yaml:/etc/envoy/envoy.yaml
       - ./certs:/certs
     ports:
-      - "80:10000"
-      - "443:10001"
+      - "80:80" # Http
+      - "443:443" # Https
     networks:
       - envoymesh
   

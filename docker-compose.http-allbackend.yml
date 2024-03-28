@@ -7,8 +7,7 @@ services:
       - ./envoy/http-allbackend.yaml:/etc/envoy/envoy.yaml
       - ./certs:/certs
     ports:
-      - "80:10000" # Http
-      - "443:10001" # Https
+      - "80:80" # Http
     networks:
       - envoymesh
   
