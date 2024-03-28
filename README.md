@@ -67,3 +67,20 @@ Go to `https://localhost` to see the application running.
         tls_params:
             tls_minimum_protocol_version: "TLSv1_2"
 ```
+
+
+## 3. How to run `https-domain` 
+
+```
+mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
+```
+
+
+Run this to start the services
+   
+```sh
+docker-compose -f docker-compose.https-domain.yml up
+```
+
+
+Go to `https://app.docker.localhost/` to see the application running.

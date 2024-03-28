@@ -1,0 +1,62 @@
+static_resources:
+  listeners:
+    - address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: 10001
+      filter_chains:
+        - filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config: 
+              '@type': "type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager"
+              stat_prefix: http_proxy
+              route_config: 
+                name: all
+                virtual_hosts:
+                  - name: allbackend_cluster
+                    domains: 
+                      - 'app.docker.localhost'
+                    routes:
+                      - match: { prefix: "/"}
+                        route:
+                          cluster: allbackend_cluster
+              http_filters:
+                  - name: envoy.filters.http.router
+                    typed_config: 
+                      "@type": "type.googleapis.com/envoy.extensions.filters.http.router.v3.Router"
+
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              common_tls_context: 
+                ## Setups for TLS and Certificates
+                tls_certificates:
+                  certificate_chain: {filename: "/certs/local-cert.pem"}
+                  private_key: {filename: "/certs/local-key.pem"}
+                ## Setup support both HTTP/2 and HTTP/1.1.
+                alpn_protocols: ["h2,http/1.1"]
+                ## Setup minimum TLS version
+                tls_params:
+                    tls_minimum_protocol_version: "TLSv1_2"
+  clusters:
+    - name: allbackend_cluster
+      connect_timeout: 1s
+      type: strict_dns
+      lb_policy: round_robin
+      load_assignment:
+        cluster_name: allbackend_cluster
+        endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: go-1111
+                    port_value: 1111
+            
+            - endpoint:
+                address:
+                  socket_address:
+                    address: go-2222
+                    port_value: 2222
+                  
