@@ -30,12 +30,15 @@ static_resources:
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
               common_tls_context: 
+                ## Setups for TLS and Certificates
                 tls_certificates:
                   certificate_chain: {filename: "/certs/local-cert.pem"}
                   private_key: {filename: "/certs/local-key.pem"}
-                # alpn_protocols: ["h2,http/1.1"]
-                # tls_params:
-                #    tls_minimum_protocol_version: "TLSv1_2"
+                ## Setup support both HTTP/2 and HTTP/1.1.
+                alpn_protocols: ["h2,http/1.1"]
+                ## Setup minimum TLS version
+                tls_params:
+                    tls_minimum_protocol_version: "TLSv1_2"
   clusters:
     - name: allbackend_cluster
       connect_timeout: 1s
