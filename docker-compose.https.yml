@@ -4,7 +4,7 @@ services:
   envoy:
     image: envoyproxy/envoy:v1.29-latest
     volumes:
-      - ./envoy/https-basic.yaml:/etc/envoy/envoy.yaml
+      - ./envoy/https.yaml:/etc/envoy/envoy.yaml
       - ./certs:/certs
     ports:
       - "80:10000"

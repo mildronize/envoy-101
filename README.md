@@ -44,7 +44,7 @@ mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem localhost
 Run this to start the services
    
 ```sh
-docker-compose -f docker-compose.https-basic.yml up
+docker-compose -f docker-compose.https.yml up
 ```
 
 Go to `https://localhost` to see the application running.
