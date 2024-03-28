@@ -84,3 +84,21 @@ docker-compose -f docker-compose.https-domain.yml up
 
 
 Go to `https://app.docker.localhost/` to see the application running.
+
+
+## 4. How to run `https-domain-redirect-from-http`
+
+```
+mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
+```
+
+
+Run this to start the services
+   
+```sh
+docker-compose -f docker-compose.https-domain-redirect-from-http.yml up
+```
+
+
+Go to `http://app.docker.localhost/` it will redirect to `https://app.docker.localhost/`
+
